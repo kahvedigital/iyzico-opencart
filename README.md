@@ -1,6 +1,6 @@
 # iyzico-opencart
 
-iyzico opencart is the simple and lightweight implementation of iyzico.com payment service for Opencart. It's licensed under LGPL v3.0 license, therefore feel free to use it in any project or modify the source code.
+iyzico opencart is the simple and lightweight implementation of [iyzico.com](https://www.iyzico.com) payment service for Opencart. It's licensed under LGPL v3.0 license, therefore feel free to use it in any project or modify the source code.
 
 # Getting Started
 
