@@ -12,11 +12,11 @@ Switch to branch **[master](https://github.com/kahvedigital/iyzico-opencart/tree
 
 ### If you are using Opencart 2.1.x
 
-Switch to branch **[2.1](https://github.com/kahvedigital/iyzico-opencart/tree/2.1)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
+Switch to branch **[2.1.x](https://github.com/kahvedigital/iyzico-opencart/tree/2.1.x)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
 
 ### If you are using Opencart 1.5.x
 
-Switch to branch **[1.5](https://github.com/kahvedigital/iyzico-opencart/tree/1.5)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
+Switch to branch **[1.5.x](https://github.com/kahvedigital/iyzico-opencart/tree/1.5.x)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
 
 
 ## Setup
