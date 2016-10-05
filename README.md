@@ -6,9 +6,10 @@ iyzico opencart is the simple and lightweight implementation of [iyzico.com](htt
 
 ## Installation
 
-### If you are using Opencart 2.3 and above
+### If you are using Opencart 2.3.x
 
-**[Switch to branch master](https://github.com/kahvedigital/iyzico-opencart/tree/master)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
+**[Switch to branch 2.3.x](https://github.com/kahvedigital/iyzico-opencart/tree/2.3.x)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
+
 
 ### If you are using Opencart 2.1.x
 
