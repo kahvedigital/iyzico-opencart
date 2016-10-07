@@ -58,7 +58,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
             'secret_key_live'
         );
 
-        if ($this->request->get['update_error'] == '0') {
+        if (isset($this->request->get['update_error'])) {
             $data['error_warning'] = $this->language->get('entry_error_version_updated');
         } else {
             $this->load->model('extension/payment/iyzico_checkout_form');
@@ -127,10 +127,10 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         }
 
         $this->load->model('localisation/order_status');
-
-        if ($data['iyzico_checkout_form_order_status_id'] == '') {
-            $data['iyzico_checkout_form_order_status_id'] = $this->config->get('config_order_status_id');
-        }
+		
+		if($data['iyzico_checkout_form_order_status_id']==''){
+		$data['iyzico_checkout_form_order_status_id'] = $this->config->get('config_order_status_id');
+			}
         $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 
         $data['header'] = $this->load->controller('common/header');
