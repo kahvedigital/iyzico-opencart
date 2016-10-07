@@ -2,9 +2,6 @@
 
 class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
 
-        /**
-         * Get method         * 
-         */
         public function getMethod($address, $total) {
                 $this->load->language('extension/payment/iyzico_checkout_form');
 
@@ -34,10 +31,6 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 return $method_data;
         }
 
-        /**
-         * Create refund item for iyzico transaction
-         * 
-         */
         public function createRefundItemEntry($data) {
 
                 $query_string = "INSERT INTO " . DB_PREFIX . "iyzico_order_refunds SET";
@@ -52,10 +45,6 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 return $this->db->getLastId();
         }
 
-        /**
-         * Create order entry for iyzico transaction
-         * 
-         */
         public function createOrderEntry($data) {
 
                 $query_string = "INSERT INTO " . DB_PREFIX . "iyzico_order SET";
@@ -77,10 +66,6 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
 			
 		}
 
-        /**
-         * Update order entry for iyzico transaction
-         * 
-         */
         public function updateOrderEntry($data, $id) {
 
                 $query_string = "UPDATE " . DB_PREFIX . "iyzico_order SET";

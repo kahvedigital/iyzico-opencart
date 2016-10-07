@@ -8,10 +8,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         private $order_prefix = "opencart2_";
         private $valid_currency = array("TRY", "GBP", "USD", "EUR", "IRR");
 
-        /**
-         * Checkout initialization
-         * 
-         */
         public function index() {
                 error_reporting(0);
                 $this->load->language('extension/payment/iyzico_checkout_form');
@@ -34,10 +30,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                 return $this->load->view($template_url, $data);
         }
 
-        /**
-         * Generate payment form
-         * 
-         */
         public function gettoken() {
                 error_reporting(0);
 
@@ -211,7 +203,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
                         $sub_total = $this->cart->getSubTotal();
 
-                        //get coupon detail
                         if (isset($this->session->data['coupon'])) {
                             $has_coupon = true;
                             $coupon = $this->session->data['coupon'];
@@ -229,7 +220,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                             }
                         }
 
-                        //get voucher detail
                         if (isset($this->session->data['voucher'])) {
                             $has_voucher = true;
                             
@@ -245,7 +235,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                             $voucher_info['amount'] = min($voucher_info['amount'], $sub_total);
                         }
 
-                        //get points detail
                         $points = $this->customer->getRewardPoints();
 
                         if (isset($this->session->data['reward']) && $this->session->data['reward'] <= $points) {
@@ -257,7 +246,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                             }
                         }
 
-                        //get shipping detail
                         if ($this->cart->hasShipping() && isset($this->session->data['shipping_method'])) {
                             $has_shipping = true;
                             $shipping_info = $this->session->data['shipping_method'];
@@ -268,7 +256,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
                         }
 
-                        //gift vouchers to another user.
                         if (!empty($this->session->data['vouchers'])) {
                             foreach ($this->session->data['vouchers'] as $key => $voucher) {
                                 $purchase_voucher_amount = round($voucher['amount'], 2);
@@ -299,7 +286,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                                 $total_product_price = $product_tax * $product['quantity'];
 
                                 foreach ($allowed_order_total_extensions_sort as $key => $code) {
-                                    if ($code == "coupon" && $has_coupon) { //process coupon
+                                    if ($code == "coupon" && $has_coupon) { 
                                     if (!$coupon_info['product']) {
                                         $status = true;
                                     } else {
@@ -330,11 +317,11 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
                                         $total_product_price -= $discount;
                                     $total_discounts += $discount;
-                                    } else if ($code == "voucher" && $has_voucher) { //process voucher
+                                    } else if ($code == "voucher" && $has_voucher) { 
                                         $discount = $voucher_info['amount'] * ( $product['total'] / $sub_total);
                                         $total_product_price -= $discount;
                                         $total_discounts += $discount;
-                                    } else if ($code == "reward" && $has_rewards && !empty($product['points'])) { //process reward points
+                                    } else if ($code == "reward" && $has_rewards && !empty($product['points'])) { 
                                         $discount = $product['total'] * ($this->session->data['reward'] / $points_total);
 
                                         if ($product['tax_class_id']) {
@@ -349,7 +336,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
                                 $total_product_price -= $discount;
                                         $total_discounts += $discount;
-                                    } else if ($code == "shipping" && $has_shipping) { //process shipping charges
+                                    } else if ($code == "shipping" && $has_shipping) { 
                                         $per_item_shipping = $shipping_amount * ($product['total'] / $sub_total);
                                         $total_product_price += $per_item_shipping;
                                         $total_shipping_charge += $per_item_shipping;
@@ -406,7 +393,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                         $sub_total *= $exchange_rate;
                         $sub_total = round($sub_total, 2);
 
-                        //adjust sub total and product prices
+                        
                         if (!empty($items) && ($sub_total != $product_prices)) {
                                 $last_item_index = end(array_keys($items));
                                 $last_item_object = $items[$last_item_index];
@@ -421,7 +408,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                                 }
                         }
 
-                        //adjust final payable amount and product prices
+                      
                         if (!empty($items) && ($cart_total_amount != $sub_total)) {
                             $last_item_index = end(array_keys($items));
                             $last_item_object = $items[$last_item_index];
@@ -488,10 +475,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                 $this->response->setOutput(json_encode($data));
         }
 
-        /**
-         * Get site url
-         * 
-         */
         public function getSiteUrl() {
                 if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
                         $site_url = is_null($this->config->get('config_ssl')) ? HTTPS_SERVER : $this->config->get('config_ssl');
@@ -501,10 +484,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                 return $site_url;
         }
 
-        /**
-         * Get valid slug
-         * 
-         */
         public function getServerConnectionSlug() {
             if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
                         $connection = 'SSL';
@@ -515,10 +494,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                 return $connection;
         }
 
-        /**
-         * Callback url for iyzico transaction response
-         * 
-         */
         public function callback() {
                 error_reporting(0);
                 $server_conn_slug = $this->getServerConnectionSlug();
@@ -694,10 +669,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                 $this->response->redirect($this->url->link('checkout/error', '', $server_conn_slug));
         }
 
-        /**
-         * Handle error from callback
-         * 
-         */
         public function error() {
 
                 $this->language->load('extension/payment/iyzico_checkout_form');
@@ -761,10 +732,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                 $this->response->setOutput($this->load->view($template_url, $data));
         }
 
-        /**
-         * Confirm order if cart total = 0
-         * 
-         */
         public function confirm() {
         error_reporting(0);
         $server_conn_slug = $this->getServerConnectionSlug();
@@ -810,12 +777,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         }
         exit();
     }
-
-        /**
-         * Get currency constant by currency code
-         * @param $currencyCode
-         * @return string
-         */
         private function getCurrencyConstant($currencyCode){
             $currency = \Iyzipay\Model\Currency::TL;
             switch($currencyCode){
