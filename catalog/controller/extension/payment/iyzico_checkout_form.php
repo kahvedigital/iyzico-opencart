@@ -220,8 +220,8 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                                 $this->load->model('checkout/coupon');
                                 $coupon_info = $this->model_checkout_coupon->getCoupon($coupon);
                             } else {
-                                $this->load->model('total/coupon');
-                                $coupon_info = $this->model_total_coupon->getCoupon($coupon);
+                                $this->load->model('extension/total/coupon');
+                                $coupon_info = $this->model_extension_total_coupon->getCoupon($coupon);
                             }
                             
                             if ($coupon_info['type'] == 'F') {
@@ -238,8 +238,8 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                                  $this->load->model('checkout/voucher');
                                  $voucher_info = $this->model_checkout_voucher->getVoucher($voucher);
                              } else {
-                                 $this->load->model('total/voucher');
-                                 $voucher_info = $this->model_total_voucher->getVoucher($voucher);
+                                 $this->load->model('extension/total/voucher');
+                                 $voucher_info = $this->model_extension_total_voucher->getVoucher($voucher);
                              }
                             
                             $voucher_info['amount'] = min($voucher_info['amount'], $sub_total);
