@@ -1,6 +1,6 @@
 <?php
 
-class ModelTotalIyzicoCheckoutFormFee extends Model{
+class ModelExtensionTotalIyzicoCheckoutFormFee extends Model{
 
     /**
      * 
