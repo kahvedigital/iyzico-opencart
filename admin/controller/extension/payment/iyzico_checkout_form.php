@@ -7,7 +7,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
     private $error = array();
     private $base_url = "https://api.iyzipay.com";
     private $order_prefix = "opencart2_";
-    private $iyzico_version = "2.3.0.1";
+    private $iyzico_version = "2.3.0.2";
 
     public function index() {
         error_reporting(0);
@@ -128,6 +128,9 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
         $this->load->model('localisation/order_status');
 
+        if ($data['iyzico_checkout_form_order_status_id'] == '') {
+            $data['iyzico_checkout_form_order_status_id'] = $this->config->get('config_order_status_id');
+        }
         $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 
         $data['header'] = $this->load->controller('common/header');
