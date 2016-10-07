@@ -7,7 +7,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
     private $error = array();
     private $base_url = "https://api.iyzipay.com";
     private $order_prefix = "opencart2_";
-    private $iyzico_version = "2.3.0.2";
+    private $iyzico_version = "2.3.0.1";
 
     public function index() {
         error_reporting(0);
