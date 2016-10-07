@@ -98,10 +98,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                         $request->setCallbackUrl($callback_url);
                         $request->setCurrency($this->getCurrencyConstant($order_info['currency_code']));
 						
-						
-						
-						$customer_card_key = $this->model_account_customer->getCustomer($this->session->data['customer_id']);
-											
+						$customer_card_key = $this->model_account_customer->getCustomer($this->session->data['customer_id']);					
 						if($customer_card_key['iyzico_api'] == $merchant_api_id){
 						if ( !(strlen($customer_card_key['card_key']) == 0) || ($customer_card_key['card_key'] !== '0') || ($customer_card_key['card_key'] !== 'null') ){
 							$request->setCardUserKey($customer_card_key['card_key']);
