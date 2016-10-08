@@ -156,10 +156,10 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         $version_updatable = $this->request->get['version'];
         $updated = $this->model_payment_iyzico_checkout_form->update($version_updatable);
         if ($updated == 1) {
-            $this->session->data['success'] = $this->language->get('text_success');
+           $this->session->data['success'] = $this->language->get('text_success');
            $this->redirect($this->url->link('extension/payment', 'token=' . $this->session->data['token'], 'SSL'));
         } else {
-            $this->response->redirect($this->url->link('payment/iyzico_checkout_form', 'token=' . $this->session->data['token'] . "&update_error=$updated", 'SSL'));
+            $this->redirect($this->url->link('payment/iyzico_checkout_form', 'token=' . $this->session->data['token'] . "&update_error=$updated", 'SSL'));
 			}
 		}		
 
