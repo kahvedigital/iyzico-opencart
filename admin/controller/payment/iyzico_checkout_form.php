@@ -136,7 +136,6 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                     'common/header',
                     'common/footer'
                 );
-
                 $this->response->setOutput($this->render());
         }
 
