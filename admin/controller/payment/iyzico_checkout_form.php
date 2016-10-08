@@ -149,7 +149,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                 $this->load->model('payment/iyzico_checkout_form');
                 $this->model_payment_iyzico_checkout_form->uninstall();
         }
-
+		
 		public function update() {
         $this->load->model('payment/iyzico_checkout_form');
         $this->load->language('payment/iyzico_checkout_form');
@@ -157,9 +157,9 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         $updated = $this->model_payment_iyzico_checkout_form->update($version_updatable);
         if ($updated == 1) {
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->response->redirect($this->url->link('extension/payment', 'token=' . $this->session->data['token'], 'SSL'));
+           $this->redirect($this->url->link('extension/payment', 'token=' . $this->session->data['token'], 'SSL'));
         } else {
-            $this->response->redirect($this->url->link('payment/iyzico_checkout_form', 'token=' . $this->session->data['token'] . "&update_error=$updated", true));
+            $this->response->redirect($this->url->link('payment/iyzico_checkout_form', 'token=' . $this->session->data['token'] . "&update_error=$updated", 'SSL'));
 			}
 		}		
 
