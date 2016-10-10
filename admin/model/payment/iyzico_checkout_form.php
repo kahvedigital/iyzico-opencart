@@ -40,8 +40,8 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
     public function uninstall() {
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order`;");
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
     }
 
     public function logger($message) {
@@ -119,12 +119,10 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
                 rmdir($dir);
             }
         }
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://iyzico.kahvedigital.com/update');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        -
-                curl_setopt($ch, CURLOPT_POSTFIELDS, "new_version=$version_updatable");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "new_version=$version_updatable");
         $response = curl_exec($ch);
         $response = json_decode($response, true);
 
@@ -138,7 +136,9 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 
         $foldername = $response['version_name'];
         $fullfoldername = $serveryol . '/' . $foldername;
-        mkdir($fullfoldername);
+		if(!file_exists($fullfoldername)){
+		 mkdir($fullfoldername);
+		}
         if (file_exists($fullfoldername)) {
             $unzipfilename = 'iyzicoupdated.zip';
             $file = fopen($fullfoldername . '/' . $unzipfilename, "w+");

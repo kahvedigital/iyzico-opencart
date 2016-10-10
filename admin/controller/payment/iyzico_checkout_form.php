@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 require_once DIR_SYSTEM . "library" . DIRECTORY_SEPARATOR . "iyzico" . DIRECTORY_SEPARATOR . "IyzipayBootstrap.php";
 
 class ControllerPaymentIyzicoCheckoutForm extends Controller {
@@ -12,9 +12,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         public function index() {
                 $this->language->load('payment/iyzico_checkout_form');
                 $this->document->setTitle($this->language->get('heading_title'));
-
                 $this->load->model('setting/setting');
-
                 if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
                         $this->model_setting_setting->editSetting('iyzico_checkout_form', $this->request->post);
                         $this->session->data['success'] = $this->language->get('text_success');
@@ -70,11 +68,9 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                 $data['version_update_link'] = $this->url->link('payment/iyzico_checkout_form/update', 'token=' . $this->session->data['token'] . "&version=$version_updatable", true);
 						}
 				}
-
                 foreach ($error_data_array_key as $key) {
                         $data["error_{$key}"] = isset($this->error[$key]) ? $this->error[$key] : '';
                 }
-
                 $data['breadcrumbs'] = array();
 
                 $data['breadcrumbs'][] = array(
@@ -134,8 +130,6 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                 $data['header'] = $this->load->controller('common/header');
                 $data['column_left'] = $this->load->controller('common/column_left');
                 $data['footer'] = $this->load->controller('common/footer');
-
-
                 $this->response->setOutput($this->load->view('payment/iyzico_checkout_form.tpl', $data));
         }
 
@@ -216,9 +210,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                                                         }
                                                 }
                                         }
-
                                         $data['iyzico_transactions'][] = $row;
-
                                         break;
 
                                 case 'order_cancel':
@@ -267,7 +259,6 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         }
 
         public function cancel() {
-                error_reporting(0);
                 $this->language->load('payment/iyzico_checkout_form');
                 $order_id = $this->request->post['order_id'];
                 $data = array(
@@ -308,8 +299,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
 
                         $merchant_api_id = $this->config->get('iyzico_checkout_form_api_id_live');
                         $merchant_secret_key = $this->config->get('iyzico_checkout_form_secret_key_live');
-
-
+						
                         $options = new \Iyzipay\Options();
                         $options->setApiKey($merchant_api_id);
                         $options->setSecretKey($merchant_secret_key);
@@ -366,7 +356,6 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         }
 
         public function refund() {
-                error_reporting(0);
                 $this->language->load('payment/iyzico_checkout_form');
                 $order_id = (int) $this->request->post['order_id'];
                 $language_id = (int) $this->config->get('config_language_id');
@@ -510,16 +499,11 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         }
 
         private function _addhistory($order_id, $order_status_id, $comment) {
-                error_reporting(0);
-                
+			
                 $this->load->model('user/api');
-
                 $api_info = $this->model_user_api->getApi($this->config->get('config_api_id'));
-
                 $api_key = ($api_info) ? $api_info['key'] : '';
-
                 $site_url = $this->getSiteUrl();
-
                 $api_login_response = $this->_curlCall(array(
                     'key' => $api_key
                         ), $site_url . 'index.php?route=api/login');
@@ -575,11 +559,8 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
 
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
                 $response = curl_exec($ch);
-
                 curl_close($ch);
-
                 return $response;
         }
 

@@ -16,9 +16,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
                 } else {
                         $status = false;
                 }
-
                 $method_data = array();
-
                 if ($status) {
                         $method_data = array(
                             'code' => 'iyzico_checkout_form',
