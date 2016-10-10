@@ -16,7 +16,6 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 } else {
                         $status = false;
                 }
-
                 $method_data = array();
 
                 if ($status) {
@@ -58,7 +57,6 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 $this->db->query($query_string);
                 return $this->db->getLastId();
         }
-		
 		
 		public function updateCustomer($customer_id, $card_key, $iyzico_api) {
 		

@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 require_once DIR_SYSTEM . "library" . DIRECTORY_SEPARATOR . "iyzico" . DIRECTORY_SEPARATOR . "IyzipayBootstrap.php";
 
 class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
@@ -10,7 +10,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
     private $iyzico_version = "2.3.0.1";
 
     public function index() {
-        error_reporting(0);
         $this->load->language('extension/payment/iyzico_checkout_form');
         $this->document->setTitle($this->language->get('heading_title'));
         $this->load->model('setting/setting');
@@ -51,7 +50,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         $data['message'] = '';
         $data['error_warning'] = '';
         $data['error_version'] = '';
-
 
         $error_data_array_key = array(
             'api_id_live',
@@ -270,7 +268,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
     }
 
     public function cancel() {
-        error_reporting(0);
         $this->language->load('extension/payment/iyzico_checkout_form');
         $order_id = $this->request->post['order_id'];
         $data = array(
@@ -311,7 +308,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
             $merchant_api_id = $this->config->get('iyzico_checkout_form_api_id_live');
             $merchant_secret_key = $this->config->get('iyzico_checkout_form_secret_key_live');
-
 
             $options = new \Iyzipay\Options();
             $options->setApiKey($merchant_api_id);
@@ -364,12 +360,11 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         } catch (\Exception $ex) {
             $data['message'] = $ex->getMessage();
         }
-
         echo json_encode($data);
     }
 
     public function refund() {
-        error_reporting(0);
+
         $this->language->load('extension/payment/iyzico_checkout_form');
         $order_id = (int) $this->request->post['order_id'];
         $language_id = (int) $this->config->get('config_language_id');
@@ -513,16 +508,10 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
     }
 
     private function _addhistory($order_id, $order_status_id, $comment) {
-        error_reporting(0);
-
         $this->load->model('user/api');
-
         $api_info = $this->model_user_api->getApi($this->config->get('config_api_id'));
-
         $api_key = ($api_info) ? $api_info['key'] : '';
-
         $site_url = $this->getSiteUrl();
-
         $api_login_response = $this->_curlCall(array(
             'key' => $api_key
                 ), $site_url . 'index.php?route=api/login');
@@ -531,25 +520,19 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         if (empty($api_login_response)) {
             return false;
         }
-
         $api_login_data = json_decode($api_login_response, true);
 
         if (empty($api_login_data['token'])) {
             return false;
         }
-
-        $token = $api_login_data['token'];
-
+		$token = $api_login_data['token'];
         $this->_curlCall(array(
             'order_status_id' => $order_status_id,
             'notify' => 1,
             'comment' => $comment
                 ), $site_url . "index.php?route=api/order/history&token={$token}&order_id={$order_id}");
-
-
         return true;
     }
-
     public function getSiteUrl() {
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
             $site_url = HTTPS_CATALOG;
@@ -558,7 +541,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         }
         return $site_url;
     }
-
+	
     private function _curlCall($postFieldsArray, $apiUrl = null) {
 
         $fields_string = null;
@@ -575,14 +558,10 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         if (!is_null($fields_string)) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
         }
-
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
         $response = curl_exec($ch);
-
         curl_close($ch);
-
         return $response;
     }
 

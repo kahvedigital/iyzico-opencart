@@ -40,8 +40,8 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
     public function uninstall() {
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order`;");
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
-        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
+		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
     }
 
     public function logger($message) {
@@ -117,7 +117,7 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 }
                 reset($objects);
                 rmdir($dir);
-            }
+            
         }
 
         $ch = curl_init();
@@ -138,7 +138,9 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
 
         $foldername = $response['version_name'];
         $fullfoldername = $serveryol . '/' . $foldername;
-        mkdir($fullfoldername);
+		if(!file_exists($fullfoldername)){
+		 mkdir($fullfoldername);	
+		}  
         if (file_exists($fullfoldername)) {
             $unzipfilename = 'iyzicoupdated.zip';
             $file = fopen($fullfoldername . '/' . $unzipfilename, "w+");

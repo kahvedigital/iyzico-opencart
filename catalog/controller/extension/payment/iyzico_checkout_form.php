@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 require_once DIR_SYSTEM . "library" . DIRECTORY_SEPARATOR . "iyzico" . DIRECTORY_SEPARATOR . "IyzipayBootstrap.php";
 
 class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
@@ -9,7 +9,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         private $valid_currency = array("TRY", "GBP", "USD", "EUR", "IRR");
 
         public function index() {
-                error_reporting(0);
+
                 $this->load->language('extension/payment/iyzico_checkout_form');
                 $this->load->model('checkout/order');
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
@@ -31,7 +31,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         }
 
         public function gettoken() {
-                error_reporting(0);
 
                 try {
                         IyzipayBootstrap::init();
@@ -312,7 +311,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                                         }
                                     }
 
-                                        $total_product_price -= $discount;
+                                    $total_product_price -= $discount;
                                     $total_discounts += $discount;
                                     } else if ($code == "voucher" && $has_voucher) { 
                                         $discount = $voucher_info['amount'] * ( $product['total'] / $sub_total);
@@ -331,7 +330,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                                             }
                                         }
 
-                                $total_product_price -= $discount;
+										$total_product_price -= $discount;
                                         $total_discounts += $discount;
                                     } else if ($code == "shipping" && $has_shipping) { 
                                         $per_item_shipping = $shipping_amount * ($product['total'] / $sub_total);
@@ -376,9 +375,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                                         $items[] = $item;
                                 }
                         }
-
                         $exchange_rate = $this->currency->getValue($order_info['currency_code']);
-
                         $tax_total = $this->cart->getTaxes();
                         foreach($tax_total as $value){
                                 $sub_total += $value;
@@ -404,8 +401,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                                     unset($items[$last_item_index]);
                                 }
                         }
-
-                      
+   
                         if (!empty($items) && ($cart_total_amount != $sub_total)) {
                             $last_item_index = end(array_keys($items));
                             $last_item_object = $items[$last_item_index];
@@ -422,9 +418,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
                         }
 
                         $items = array_values($items);
-
                         $request->setPrice($sub_total);
-
                         $request->setBasketItems($items);
 
                         if (function_exists('curl_version')) {
@@ -492,7 +486,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         }
 
         public function callback() {
-                error_reporting(0);
                 $server_conn_slug = $this->getServerConnectionSlug();
                 $this->load->language('extension/payment/iyzico_checkout_form');
                 $this->load->model('extension/payment/iyzico_checkout_form');
@@ -670,9 +663,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
                 $this->language->load('extension/payment/iyzico_checkout_form');
                 $this->document->setTitle($this->language->get('heading_title'));
-
                 $data['breadcrumbs'] = array();
-
                 $data['breadcrumbs'][] = array(
                     'text' => $this->language->get('text_home'),
                     'href' => $this->url->link('common/home'),
@@ -730,7 +721,6 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         }
 
         public function confirm() {
-        error_reporting(0);
         $server_conn_slug = $this->getServerConnectionSlug();
                 if ($this->session->data['payment_method']['code'] == 'iyzico_checkout_form') {
             if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
