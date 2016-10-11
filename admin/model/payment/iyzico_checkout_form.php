@@ -35,6 +35,26 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 				ADD COLUMN `card_key` VARCHAR(50),
 				ADD COLUMN `iyzico_api` VARCHAR(100),
 				ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
+		
+		$file = DIR_APPLICATION . 'iyzico_checkout_form.sql';
+		if (!file_exists($file)) { 
+			}
+		$lines = file($file);
+		if ($lines) {
+			$sql = '';
+
+			foreach($lines as $line) {
+				if ($line && (substr($line, 0, 2) != '--') && (substr($line, 0, 1) != '#')) {
+					$sql .= $line;
+  
+					if (preg_match('/;\s*$/', $line)) {
+						$sql = str_replace("INSERT INTO `oc_", "INSERT INTO `" . DB_PREFIX, $sql);
+						$this->db->query($sql);
+						$sql = '';
+					}
+				}
+			}
+		}
     }
 
     public function uninstall() {
@@ -42,6 +62,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
 		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
 		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE code='iyzico_checkout_form'");	
     }
 
     public function logger($message) {
