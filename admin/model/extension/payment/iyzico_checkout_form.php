@@ -55,6 +55,7 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
 				}
 			}
 		}
+		$this->load->controller('extension/modification/refresh');
 	
  }
 	
