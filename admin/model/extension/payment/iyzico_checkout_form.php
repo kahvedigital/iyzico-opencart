@@ -35,13 +35,35 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
 				ADD COLUMN `card_key` VARCHAR(50),
 				ADD COLUMN `iyzico_api` VARCHAR(100),
 				ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
-    }
+				
+		$file = DIR_APPLICATION . 'iyzico_checkout_form.sql';
+		if (!file_exists($file)) { 
+			}
+		$lines = file($file);
+		if ($lines) {
+			$sql = '';
 
+			foreach($lines as $line) {
+				if ($line && (substr($line, 0, 2) != '--') && (substr($line, 0, 1) != '#')) {
+					$sql .= $line;
+  
+					if (preg_match('/;\s*$/', $line)) {
+						$sql = str_replace("INSERT INTO `oc_", "INSERT INTO `" . DB_PREFIX, $sql);
+						$this->db->query($sql);
+						$sql = '';
+					}
+				}
+			}
+		}
+	
+ }
+	
     public function uninstall() {
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order`;");
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
-		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
-		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
+        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE code='iyzico_checkout_form'");	
     }
 
     public function logger($message) {
@@ -117,14 +139,13 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 }
                 reset($objects);
                 rmdir($dir);
-            
+            }
         }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://iyzico.kahvedigital.com/update');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        -
-                curl_setopt($ch, CURLOPT_POSTFIELDS, "new_version=$version_updatable");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "new_version=$version_updatable");
         $response = curl_exec($ch);
         $response = json_decode($response, true);
 
@@ -139,8 +160,8 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
         $foldername = $response['version_name'];
         $fullfoldername = $serveryol . '/' . $foldername;
 		if(!file_exists($fullfoldername)){
-		 mkdir($fullfoldername);	
-		}  
+		 mkdir($fullfoldername);
+		}
         if (file_exists($fullfoldername)) {
             $unzipfilename = 'iyzicoupdated.zip';
             $file = fopen($fullfoldername . '/' . $unzipfilename, "w+");
