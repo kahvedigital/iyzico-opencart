@@ -72,7 +72,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
                 return $this->db->query($query_string);
         }
 		public function updateCustomer($customer_id, $card_key, $iyzico_api) {
-		
+	
 				$this->db->query("UPDATE " . DB_PREFIX . "customer SET card_key ='" . $this->db->escape($card_key) . "', iyzico_api='" . $this->db->escape($iyzico_api) . "' WHERE customer_id = '" . (int)$customer_id . "'");
 			
 		}

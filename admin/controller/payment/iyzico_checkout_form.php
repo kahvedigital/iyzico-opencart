@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 require_once DIR_SYSTEM . "library" . DIRECTORY_SEPARATOR . "iyzico" . DIRECTORY_SEPARATOR . "IyzipayBootstrap.php";
 
 class ControllerPaymentIyzicoCheckoutForm extends Controller {
@@ -273,7 +273,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         }
 
         public function cancel() {
-                error_reporting(0);
+
                 $this->language->load('payment/iyzico_checkout_form');
                 $order_id = $this->request->post['order_id'];
                 $data = array(
@@ -371,7 +371,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         }
 
         public function refund() {
-                error_reporting(0);
+
                 $this->language->load('payment/iyzico_checkout_form');
                 $order_id = (int) $this->request->post['order_id'];
                 $language_id = (int) $this->config->get('config_language_id');
@@ -515,8 +515,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         }
 
         private function _addhistory($order_id, $order_status_id, $comment) {
-            error_reporting(0);
-                
+
             $this->load->model('sale/order');
             $this->model_sale_order->addOrderHistory($order_id, array(
                     'order_status_id' => $order_status_id,
