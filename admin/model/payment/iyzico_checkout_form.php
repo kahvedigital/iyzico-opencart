@@ -55,6 +55,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 				}
 			}
 		}
+		$this->load->controller('extension/modification/refresh');
     }
 
     public function uninstall() {
