@@ -65,6 +65,7 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
         $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
         $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE code='iyzico_checkout_form'");	
+		$this->load->controller('extension/modification/refresh');
     }
 
     public function logger($message) {

@@ -19,8 +19,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
             $this->session->data['success'] = $this->language->get('text_success');
             $this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true));
         }
-        $this->session->data['success'] = $this->language->get('text_success');
-        $data['heading_title'] = $this->language->get('heading_title');
+		$data['heading_title'] = $this->language->get('heading_title');
         $data['text_edit'] = $this->language->get('heading_title');
         $data['link_title'] = $this->language->get('text_link');
 
