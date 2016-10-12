@@ -55,7 +55,6 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 				}
 			}
 		}
-		$this->load->controller('extension/modification/refresh');
     }
 
     public function uninstall() {
@@ -63,8 +62,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
 		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
 		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE code='iyzico_checkout_form'");
-		$this->load->controller('extension/modification/refresh');		
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE code='iyzico_checkout_form'");		
     }
 
     public function logger($message) {
@@ -187,7 +185,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
         } else {
             return 0;
         }
-		$this->load->controller('extension/modification/refresh');
+	
         return 1;
     }
 

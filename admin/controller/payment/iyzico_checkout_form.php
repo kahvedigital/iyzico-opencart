@@ -136,18 +136,47 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         public function install() {
                 $this->load->model('payment/iyzico_checkout_form');
                 $this->model_payment_iyzico_checkout_form->install();
+				if(!isset($this->session->data['iyzico_update'])){
+				$this->load->controller('extension/modification/refresh');
+				}
         }
 
         public function uninstall() {
                 $this->load->model('payment/iyzico_checkout_form');
                 $this->model_payment_iyzico_checkout_form->uninstall();
+				if(!isset($this->session->data['iyzico_update'])){
+				$this->load->controller('extension/modification/refresh');
+				}
         }
+		
 		public function update() {
         $this->load->model('payment/iyzico_checkout_form');
         $this->load->language('payment/iyzico_checkout_form');
         $version_updatable = $this->request->get['version'];
         $updated = $this->model_payment_iyzico_checkout_form->update($version_updatable);
         if ($updated == 1) {
+			$this->load->model('setting/setting');
+			$iyzico_checkout_form_api_id_live=$this->config->get('iyzico_checkout_form_api_id_live');
+			$iyzico_checkout_form_secret_key_live=$this->config->get('iyzico_checkout_form_secret_key_live');
+			$iyzico_checkout_form_cancel_order_status_id=$this->config->get('iyzico_checkout_form_cancel_order_status_id');	
+			$iyzico_checkout_form_sort_order=$this->config->get('iyzico_checkout_form_sort_order');	
+			$iyzico_checkout_form_form_class=$this->config->get('iyzico_checkout_form_form_class');	
+			$iyzico_checkout_form_order_status_id=$this->config->get('iyzico_checkout_form_order_status_id');
+			$iyzico_checkout_form_status=$this->config->get('iyzico_checkout_form_status');	
+			$this->session->data['iyzico_update'] =1;
+			$this->load->controller('payment/' . 'iyzico_checkout_form' . '/uninstall');
+			$this->load->controller('payment/' . 'iyzico_checkout_form' . '/install');
+			
+			$this->config->set('iyzico_checkout_form_api_id_live', $iyzico_checkout_form_api_id_live);
+			$this->config->set('iyzico_checkout_form_secret_key_live', $iyzico_checkout_form_secret_key_live);
+			$this->config->set('iyzico_checkout_form_cancel_order_status_id', $iyzico_checkout_form_cancel_order_status_id);
+			$this->config->set('iyzico_checkout_form_sort_order', $iyzico_checkout_form_sort_order);
+			$this->config->set('iyzico_checkout_form_form_class', $iyzico_checkout_form_form_class);
+			$this->config->set('iyzico_checkout_form_order_status_id', $iyzico_checkout_form_order_status_id);
+			$this->config->set('iyzico_checkout_form_status', $iyzico_checkout_form_status);
+		
+			unset($this->session->data['iyzico_update']);
+			$this->load->controller('extension/modification/refresh');
             $this->session->data['success'] = $this->language->get('text_success');
             $this->response->redirect($this->url->link('extension/payment', 'token=' . $this->session->data['token'], 'SSL'));
         } else {
