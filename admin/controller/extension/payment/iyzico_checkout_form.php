@@ -154,6 +154,8 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
         $version_updatable = $this->request->get['version'];
         $updated = $this->model_extension_payment_iyzico_checkout_form->update($version_updatable);
         if ($updated == 1) {
+			$this->model_extension_payment_iyzico_checkout_form->uninstall();
+			$this->model_extension_payment_iyzico_checkout_form->install();
             $this->session->data['success'] = $this->language->get('text_success');
             $this->response->redirect($this->url->link('extension/extension', 'token=' . $this->session->data['token'] . '&type=payment', true));
         } else {
