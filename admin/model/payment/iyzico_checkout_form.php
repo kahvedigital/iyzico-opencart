@@ -187,6 +187,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
         } else {
             return 0;
         }
+		$this->load->controller('extension/modification/refresh');
         return 1;
     }
 

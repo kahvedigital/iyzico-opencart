@@ -551,7 +551,8 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
 
                 curl_setopt($ch, CURLOPT_URL, $apiUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
+				curl_setopt($ch, CURLOPT_COOKIEJAR, '/tmp/apicookie.txt');
+				curl_setopt($ch, CURLOPT_COOKIEFILE, '/tmp/apicookie.txt');
                 curl_setopt($ch, CURLOPT_POST, count($postFieldsArray));
                 if (!is_null($fields_string)) {
                     curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
