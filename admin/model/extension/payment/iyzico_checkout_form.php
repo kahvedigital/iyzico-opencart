@@ -3,6 +3,7 @@
 class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
 
     public function install() {
+		if(!isset($this->session->data['iyzico_update'])){
         $this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "iyzico_order` (
 			`iyzico_order_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -35,7 +36,7 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
 				ADD COLUMN `card_key` VARCHAR(50),
 				ADD COLUMN `iyzico_api` VARCHAR(100),
 				ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
-				
+		}	
 		$file = DIR_APPLICATION . 'iyzico_checkout_form.sql';
 		if (!file_exists($file)) { 
 			}
@@ -58,10 +59,12 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
  }
 	
     public function uninstall() {
+		if(!isset($this->session->data['iyzico_update'])){
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order`;");
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
         $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
         $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+		}
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE code='iyzico_checkout_form'");	
     }
 
