@@ -2,9 +2,6 @@
 
 class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
 
-        /**
-         * Get method         * 
-         */
         public function getMethod($address, $total) {
                 $this->load->language('extension/payment/iyzico_checkout_form');
 
@@ -19,7 +16,6 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 } else {
                         $status = false;
                 }
-
                 $method_data = array();
 
                 if ($status) {
@@ -34,10 +30,6 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 return $method_data;
         }
 
-        /**
-         * Create refund item for iyzico transaction
-         * 
-         */
         public function createRefundItemEntry($data) {
 
                 $query_string = "INSERT INTO " . DB_PREFIX . "iyzico_order_refunds SET";
@@ -52,10 +44,6 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 return $this->db->getLastId();
         }
 
-        /**
-         * Create order entry for iyzico transaction
-         * 
-         */
         public function createOrderEntry($data) {
 
                 $query_string = "INSERT INTO " . DB_PREFIX . "iyzico_order SET";
@@ -70,17 +58,12 @@ class ModelExtensionPaymentIyzicoCheckoutForm extends Model {
                 return $this->db->getLastId();
         }
 		
-		
 		public function updateCustomer($customer_id, $card_key, $iyzico_api) {
 		
 				$this->db->query("UPDATE " . DB_PREFIX . "customer SET card_key ='" . $this->db->escape($card_key) . "', iyzico_api='" . $this->db->escape($iyzico_api) . "' WHERE customer_id = '" . (int)$customer_id . "'");
 			
 		}
 
-        /**
-         * Update order entry for iyzico transaction
-         * 
-         */
         public function updateOrderEntry($data, $id) {
 
                 $query_string = "UPDATE " . DB_PREFIX . "iyzico_order SET";
