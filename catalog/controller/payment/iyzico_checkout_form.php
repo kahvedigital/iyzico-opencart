@@ -7,6 +7,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         private $base_url = "https://api.iyzipay.com";
         private $order_prefix = "opencart156_";
         private $valid_currency = array("TRY", "GBP", "USD", "EUR", "IRR");
+		private $iyzico_version = "1.5.0.2";
 
         public function index() {
 
@@ -94,7 +95,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $request->setPaidPrice($cart_total_amount);
                         $request->setBasketId($unique_conversation_id);
                         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
-                        $request->setPaymentSource("OPENCART-" . VERSION);
+                        $request->setPaymentSource("OPENCART-" . VERSION ."-".$iyzico_version);
                         $request->setCallbackUrl($callback_url);
                         $request->setCurrency($this->getCurrencyConstant($order_info['currency_code']));
 
