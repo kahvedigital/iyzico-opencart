@@ -95,7 +95,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $request->setPaidPrice($cart_total_amount);
                         $request->setBasketId($unique_conversation_id);
                         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
-                        $request->setPaymentSource("OPENCART-" . VERSION ."-".$iyzico_version);
+                        $request->setPaymentSource("OPENCART-" . VERSION ."-".$this->iyzico_version);
                         $request->setCallbackUrl($callback_url);
                         $request->setCurrency($this->getCurrencyConstant($order_info['currency_code']));
 
