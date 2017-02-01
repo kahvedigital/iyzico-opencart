@@ -144,7 +144,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
 
                         $billing_address = new \Iyzipay\Model\Address();
                         $billing_address->setContactName($order_info_firstname);
-                        $billing_address->setCity($order_info_payment_city);
+                        $billing_address->setCity($order_info_payment_zone);
                         $billing_address->setCountry($order_info_payment_country);
                         $billing_address->setAddress($customer_address);
                         $billing_address->setZipCode($order_info_payment_postcode);
