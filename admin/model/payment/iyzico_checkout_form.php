@@ -3,8 +3,8 @@
 class ModelPaymentIyzicoCheckoutForm extends Model {
 
     public function install() {
-		if(!isset($this->session->data['iyzico_update'])){
-        $this->db->query("
+        if (!isset($this->session->data['iyzico_update'])) {
+            $this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "iyzico_order` (
 			`iyzico_order_id` INT(11) NOT NULL AUTO_INCREMENT,
 			`order_id` INT(11) NOT NULL,
@@ -20,7 +20,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 			PRIMARY KEY (`iyzico_order_id`)
 			) ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
 
-        $this->db->query("
+            $this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "iyzico_order_refunds` (
 			  `iyzico_order_refunds_id` INT(11) NOT NULL AUTO_INCREMENT,
 			  `order_id` INT(11) NOT NULL,
@@ -31,42 +31,42 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 			  PRIMARY KEY (`iyzico_order_refunds_id`)
 			) ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
 
-        $this->db->query("				
+            $this->db->query("				
 				ALTER TABLE `" . DB_PREFIX . "customer`
 				ADD COLUMN `card_key` VARCHAR(50),
 				ADD COLUMN `iyzico_api` VARCHAR(100),
 				ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
-		}
-		$file = DIR_APPLICATION . 'iyzico_checkout_form.sql';
-		if (!file_exists($file)) { 
-		}
-		$lines = file($file);
-		if ($lines) {
-			$sql = '';
+        }
+        $file = DIR_APPLICATION . 'iyzico_checkout_form.sql';
+        if (!file_exists($file)) {
+            
+        }
+        $lines = file($file);
+        if ($lines) {
+            $sql = '';
 
-			foreach($lines as $line) {
-				if ($line && (substr($line, 0, 2) != '--') && (substr($line, 0, 1) != '#')) {
-					$sql .= $line;
-  
-					if (preg_match('/;\s*$/', $line)) {
-						$sql = str_replace("INSERT INTO `oc_", "INSERT INTO `" . DB_PREFIX, $sql);
-						$this->db->query($sql);
-						$sql = '';
-					}
-				}
-			}
-		}
+            foreach ($lines as $line) {
+                if ($line && (substr($line, 0, 2) != '--') && (substr($line, 0, 1) != '#')) {
+                    $sql .= $line;
+
+                    if (preg_match('/;\s*$/', $line)) {
+                        $sql = str_replace("INSERT INTO `oc_", "INSERT INTO `" . DB_PREFIX, $sql);
+                        $this->db->query($sql);
+                        $sql = '';
+                    }
+                }
+            }
+        }
     }
 
     public function uninstall() {
-		if(!isset($this->session->data['iyzico_update'])){
-        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order`;");
-        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
-		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
-		$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
-		}
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE code='iyzico_checkout_form'");		
-		
+        if (!isset($this->session->data['iyzico_update'])) {
+            $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order`;");
+            $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
+            $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
+            $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+        }
+        $this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE code='iyzico_checkout_form'");
     }
 
     public function logger($message) {
@@ -106,7 +106,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://iyzico.kahvedigital.com/version');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch,CURLOPT_TIMEOUT,10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_POSTFIELDS, "opencart=$opencart&iyzico=$iyzico&type=opencart");
         $response = curl_exec($ch);
         $response = json_decode($response, true);
@@ -145,6 +145,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
                 rmdir($dir);
             }
         }
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://iyzico.kahvedigital.com/update');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -162,9 +163,9 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 
         $foldername = $response['version_name'];
         $fullfoldername = $serveryol . '/' . $foldername;
-		if(!file_exists($fullfoldername)){
-		 mkdir($fullfoldername);
-		}
+        if (!file_exists($fullfoldername)) {
+            mkdir($fullfoldername);
+        }
         if (file_exists($fullfoldername)) {
             $unzipfilename = 'iyzicoupdated.zip';
             $file = fopen($fullfoldername . '/' . $unzipfilename, "w+");
@@ -190,7 +191,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
         } else {
             return 0;
         }
-	
+
         return 1;
     }
 
