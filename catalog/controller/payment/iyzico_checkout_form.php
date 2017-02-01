@@ -7,7 +7,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         private $base_url = "https://api.iyzipay.com";
         private $order_prefix = "opencart156_";
         private $valid_currency = array("TRY", "GBP", "USD", "EUR", "IRR");
-		private $iyzico_version = "1.5.0.2";
+		private $iyzico_version = "1.5.0.3";
 
         public function index() {
 
@@ -128,7 +128,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $order_info_payment_postcode = !empty($order_info['payment_postcode']) ? $order_info['payment_postcode'] : "NOT PROVIDED";
                         $order_info_ip = !empty($order_info['ip']) ? $order_info['ip'] : "NOT PROVIDED";
 
-                        $buyer->setCity($order_info_payment_city);
+                        $buyer->setCity($order_info_payment_zone);
                         $buyer->setCountry($order_info_payment_country);
                         $buyer->setZipCode($order_info_payment_postcode);
                         $buyer->setIp($order_info_ip);
@@ -145,7 +145,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
 
                         $billing_address = new \Iyzipay\Model\Address();
                         $billing_address->setContactName($order_info_firstname);
-                        $billing_address->setCity($order_info_payment_city);
+                        $billing_address->setCity($order_info_payment_zone);
                         $billing_address->setCountry($order_info_payment_country);
                         $billing_address->setAddress($customer_address);
                         $billing_address->setZipCode($order_info_payment_postcode);
