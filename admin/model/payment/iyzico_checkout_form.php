@@ -1,9 +1,8 @@
 <?php
-
 class ModelPaymentIyzicoCheckoutForm extends Model {
 
-        public function install() {
-                $this->db->query("
+    public function install() {
+        $this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "iyzico_order` (
 			`iyzico_order_id` INT(11) NOT NULL AUTO_INCREMENT,
 			`order_id` INT(11) NOT NULL,
@@ -19,7 +18,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 			PRIMARY KEY (`iyzico_order_id`)
 			) ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
 
-                $this->db->query("
+        $this->db->query("
 			CREATE TABLE IF NOT EXISTS `" . DB_PREFIX . "iyzico_order_refunds` (
 			  `iyzico_order_refunds_id` INT(11) NOT NULL AUTO_INCREMENT,
 			  `order_id` INT(11) NOT NULL,
@@ -29,82 +28,79 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 			  `total_refunded` VARCHAR(50),
 			  PRIMARY KEY (`iyzico_order_refunds_id`)
 			) ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
-			
-				$this->db->query("				
+
+        $this->db->query("				
 				ALTER TABLE `" . DB_PREFIX . "customer`
 				ADD COLUMN `card_key` VARCHAR(50),
 				ADD COLUMN `iyzico_api` VARCHAR(100),
 				ENGINE=MyISAM DEFAULT COLLATE=utf8_general_ci;");
 
-                $this->disableErrorSettings();
+        $this->disableErrorSettings();
+    }
+
+    public function uninstall() {
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order`;");
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
+        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
+        $this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+    }
+
+    public function logger($message) {
+        $log = new Log('iyzico_checkout_form.log');
+        $log->write($message);
+    }
+
+    public function createOrderEntry($data) {
+
+        $query_string = "INSERT INTO " . DB_PREFIX . "iyzico_order SET";
+        $data_array = array();
+        foreach ($data as $key => $value) {
+            $data_array[] = "`$key` = '" . $this->db->escape($value) . "'";
         }
+        $data_string = implode(", ", $data_array);
+        $query_string .= $data_string;
+        $query_string .= ";";
+        $this->db->query($query_string);
+        return $this->db->getLastId();
+    }
 
-        public function uninstall() {
-                $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order`;");
-                $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "iyzico_order_refunds`;");
-				$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN card_key;");
-				$this->db->query("ALTER TABLE `" . DB_PREFIX . "customer` DROP COLUMN iyzico_api;");
+    public function updateOrderEntry($data, $id) {
+
+        $query_string = "UPDATE " . DB_PREFIX . "iyzico_order SET";
+        $data_array = array();
+        foreach ($data as $key => $value) {
+            $data_array[] = "`$key` = '" . $this->db->escape($value) . "'";
         }
+        $data_string = implode(", ", $data_array);
+        $query_string .= $data_string;
+        $query_string .= " WHERE `iyzico_order_id` = {$id};";
+        return $this->db->query($query_string);
+    }
 
-        public function logger($message) {
-                $log = new Log('iyzico_checkout_form.log');
-                $log->write($message);
+    public function disableErrorSettings() {
+        $store_id = (int) $this->config->get('config_store_id');
+        $key = 'config_error_display';
+        $group = 'config';
+        $response = $this->db->query("SELECT `setting_id` FROM " . DB_PREFIX . "setting WHERE store_id = '{$store_id}' AND `group` = '{$group}' AND `key` = '{$key}'");
+        if ($response->num_rows > 0) {
+            $id = (int) $response->row['setting_id'];
+            $this->db->query("UPDATE " . DB_PREFIX . "setting SET `value` = '0' WHERE `setting_id` = '{$id}' ");
+        } else {
+            $this->db->query("INSERT INTO " . DB_PREFIX . "setting SET store_id = '{$store_id}', `group` = '{$group}', `key` = '{$key}', `value` = '0'");
         }
+    }
 
-        public function createOrderEntry($data) {
-
-                $query_string = "INSERT INTO " . DB_PREFIX . "iyzico_order SET";
-                $data_array = array();
-                foreach ($data as $key => $value) {
-                        $data_array[] = "`$key` = '" . $this->db->escape($value) . "'";
-                }
-                $data_string = implode(", ", $data_array);
-                $query_string .= $data_string;
-                $query_string .= ";";
-                $this->db->query($query_string);
-                return $this->db->getLastId();
-        }
-
-        public function updateOrderEntry($data, $id) {
-
-                $query_string = "UPDATE " . DB_PREFIX . "iyzico_order SET";
-                $data_array = array();
-                foreach ($data as $key => $value) {
-                        $data_array[] = "`$key` = '" . $this->db->escape($value) . "'";
-                }
-                $data_string = implode(", ", $data_array);
-                $query_string .= $data_string;
-                $query_string .= " WHERE `iyzico_order_id` = {$id};";
-                return $this->db->query($query_string);
-        }
-		
-
-        public function disableErrorSettings() {
-                $store_id = (int) $this->config->get('config_store_id');
-                $key = 'config_error_display';
-                $group = 'config';
-                $response = $this->db->query("SELECT `setting_id` FROM " . DB_PREFIX . "setting WHERE store_id = '{$store_id}' AND `group` = '{$group}' AND `key` = '{$key}'");
-                if ($response->num_rows > 0) {
-                        $id = (int)  $response->row['setting_id'];
-                        $this->db->query("UPDATE " . DB_PREFIX . "setting SET `value` = '0' WHERE `setting_id` = '{$id}' ");
-                } else {
-                        $this->db->query("INSERT INTO " . DB_PREFIX . "setting SET store_id = '{$store_id}', `group` = '{$group}', `key` = '{$key}', `value` = '0'");
-                }
-        }
-		
-		public function versionCheck($opencart, $iyzico) {
+    public function versionCheck($opencart, $iyzico) {
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://iyzico.kahvedigital.com/version');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch,CURLOPT_TIMEOUT,10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_POSTFIELDS, "opencart=$opencart&iyzico=$iyzico&type=opencart");
         $response = curl_exec($ch);
         $response = json_decode($response, true);
         return $response;
-		}
-
-	
+    }
 
     public function update($version_updatable) {
 
@@ -156,9 +152,9 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
 
         $foldername = $response['version_name'];
         $fullfoldername = $serveryol . '/' . $foldername;
-		if(!file_exists($fullfoldername)){
-		 mkdir($fullfoldername);
-		}
+        if (!file_exists($fullfoldername)) {
+            mkdir($fullfoldername);
+        }
         if (file_exists($fullfoldername)) {
             $unzipfilename = 'iyzicoupdated.zip';
             $file = fopen($fullfoldername . '/' . $unzipfilename, "w+");
@@ -187,6 +183,4 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
         return 1;
     }
 
-		
-		
 }
