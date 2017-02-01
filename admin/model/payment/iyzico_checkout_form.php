@@ -106,6 +106,7 @@ class ModelPaymentIyzicoCheckoutForm extends Model {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://iyzico.kahvedigital.com/version');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch,CURLOPT_TIMEOUT,10);
         curl_setopt($ch, CURLOPT_POSTFIELDS, "opencart=$opencart&iyzico=$iyzico&type=opencart");
         $response = curl_exec($ch);
         $response = json_decode($response, true);
