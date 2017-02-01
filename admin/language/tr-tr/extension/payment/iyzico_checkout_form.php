@@ -7,7 +7,7 @@ $_['heading_title'] = 'Iyzico Ödeme Formu';
 $_['text_link'] = 'Iyzico Tüccar olmak için kayıt';
 $_['text_payment'] = 'ödeme';
 $_['text_success'] = 'Ayarlar güncellendi';
-$_['text_iyzico_checkout_form'] = '<a href="https://www.iyzico.com/" target="_blank"><img src="view/image/payment/iyzico_checkout_form.png" alt="iyzico" title="iyzico"/></a>';
+$_['text_iyzico_checkout_form'] = '<a href="http://www.kahvedigital.com/" target="_blank"><img src="view/image/payment/iyzico_checkout_form.png" alt="iyzico" title="iyzico"/></a>';
 $_['text_iyzico_checkout_form_info'] = "Apı Id ve Secret Key anahtarlarınızı <a href='https://merchant.iyzipay.com/settings' target='_blank'>https://merchant.iyzipay.com/settings</a> 'dan alabilirsiniz.";
 // Entry
 $_['entry_api_id_live'] = 'Live Api Id';

@@ -7,7 +7,7 @@ $_['heading_title'] = 'Iyzico Checkout Form';
 $_['text_link'] = 'Register to become iyzico Merchant';
 $_['text_payment'] = 'Payment';
 $_['text_success'] = 'iyzico checkout settings updated';
-$_['text_iyzico_checkout_form'] = '<a href="https://www.iyzico.com/" target="_blank"><img src="view/image/payment/iyzico_checkout_form.png" alt="iyzico" title="iyzico"/></a>';
+$_['text_iyzico_checkout_form'] = '<a href="http://www.kahvedigital.com/" target="_blank"><img src="view/image/payment/iyzico_checkout_form.png" alt="iyzico" title="iyzico"/></a>';
 $_['text_iyzico_checkout_form_info'] = 'You can get your API ID and Secret Key values from <a href="https://merchant.iyzipay.com/settings" target="_blank">https://merchant.iyzipay.com/settings</a>';
 // Entry
 $_['entry_api_id_live'] = 'Live Api Id';

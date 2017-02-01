@@ -7,7 +7,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
     private $error = array();
     private $base_url = "https://api.iyzipay.com";
     private $order_prefix = "opencart2_";
-    private $iyzico_version = "2.3.0.2";
+    private $iyzico_version = "2.3.0.3";
 
     public function index() {
         $this->load->language('extension/payment/iyzico_checkout_form');
