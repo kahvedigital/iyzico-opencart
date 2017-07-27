@@ -6,21 +6,19 @@ iyzico opencart is the simple and lightweight implementation of [iyzico.com](htt
 
 ## Installation
 
-### If you are using Opencart 2.3.x
 
-**[Switch to branch 2.3.x](https://github.com/kahvedigital/iyzico-opencart/tree/2.3.x)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
+1. Download the source, just copy all the files in the zip to your OpenCart directory.
+2. Click Extensions tab and Payments subtab in your OpenCart admin panel.
+3. Find iyzico extension and install the module. Then click Edit.
+4. Get your api keys from iyzico merchant backend.
+5. Select "Enabled" to activate iyzico plugin for your OpenCart.
+6. Select "popup" or "responsive" to display form on checkout page.
+7. Define alignment number for the payment sort order.(etc 1,2,3...)
+8. User on checkout page will find iyzico payment extension in payment methods.
+9. In order details on admin interface, find "iyzico Checkout Form" tab in "Order History" section.
+10. From there, admin can Cancel order and/or Full/Partial Refund item.
 
+#### Notice :
+If you have installed any other theme on your opencart site, you have to copy below folder from this plugin: **catalog/view/theme/default/template** to your theme  folder at: **catalog/view/theme/current_theme_folder**.
 
-### If you are using Opencart 2.2.x
-
-**[Switch to branch 2.2.x](https://github.com/kahvedigital/iyzico-opencart/tree/2.2.x)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
-
-### If you are using Opencart 1.5.6
-**[Switch to branch 1.5.6](https://github.com/kahvedigital/iyzico-opencart/tree/1.5.6)**, download the source, just copy over _**admin**_, _**catalog**_ and _**vendor**_ folders to your Opencart root.
-
-
-## Setup
-
-Activate the extension thru your Opencart Admin Panel.
-
-The extension uses the iyzico API. You need to enter iyzico API keys on the extension settings page.
+For further information please refer to [iyzico developer portal](https://dev.iyzipay.com).
