@@ -5,7 +5,7 @@ require_once DIR_SYSTEM . "library" . DIRECTORY_SEPARATOR . "iyzico" . DIRECTORY
 
 class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
-        private $base_url = "https://sandbox-api.iyzipay.com";
+        private $base_url = "https://api.iyzipay.com";
         private $order_prefix = "opencart3_";
      
 		private $iyzico_version = "3.0.0.0";
