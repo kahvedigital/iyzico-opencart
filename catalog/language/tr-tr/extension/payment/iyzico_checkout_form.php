@@ -8,7 +8,7 @@ $_['text_wait'] = 'Lütfen bekleyiniz!';
 $_['text_title_in_checkout'] = 'Kredi Kartı';
 // Entry
 $_['orderId_text'] = 'Sipariş no';
-$_['Error_message_curl'] = 'Sunucunuzda PHP CURL eklentisini etkinleştirmeniz gerekir';
+$_['Error_message_curl'] = 'Bağlantı kurulamadı, lütfen daha sonra tekrar deneyin';
 $_['Error_message_generateToken'] = 'Token üretirken bir sorun oluştu';
 $_['Error_message_sender_head'] = 'Bir Hata Olustu';
 $_['Error_message_sender_text'] = 'Hata: eksik ya da hatalı gönderici numarası';
