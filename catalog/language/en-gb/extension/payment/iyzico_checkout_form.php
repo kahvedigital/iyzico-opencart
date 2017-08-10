@@ -3,7 +3,7 @@
 $_['text_title'] = 'Credit Card';
 $_['text_credit_card'] = 'Credit Card Details';
 $_['text_start_date'] = '(if available)';
-$_['text_issue'] = '(for Maestro and Solo cards only)';
+$_['text_issue'] = '(for Maestro and Debit cards only)';
 $_['text_wait'] = 'Please wait!';
 $_['text_title_in_checkout'] = 'Credit Card';
 // Entry
