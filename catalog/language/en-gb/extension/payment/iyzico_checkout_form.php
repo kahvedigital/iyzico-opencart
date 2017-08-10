@@ -8,7 +8,7 @@ $_['text_wait'] = 'Please wait!';
 $_['text_title_in_checkout'] = 'Credit Card';
 // Entry
 $_['orderId_text'] = 'orderID';
-$_['Error_message_curl'] = 'You have to enable PHP CURL Extention on this server';
+$_['Error_message_curl'] = 'Can not connect please try again later';
 $_['Error_message_generateToken'] = 'Problem detected in generating payment token';
 $_['Error_message_sender_head'] = 'An Error Occured';
 $_['Error_message_sender_text'] = 'Missing or invalid sender ID';
