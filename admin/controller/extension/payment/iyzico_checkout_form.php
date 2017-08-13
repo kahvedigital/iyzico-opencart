@@ -455,7 +455,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
             $request->setConversationId(uniqid($this->order_prefix) . "_refund_{$order_id}_{$item_id}");
             $request->setPaymentTransactionId($refund_data['payment_transaction_id']);
             $request->setPrice($amount);
-            $request->setCurrency($this->getCurrencyConstant($order_details['currency_code']));
+            $request->setCurrency($order_details['currency_code']);
             $request->setIp($this->request->server['REMOTE_ADDR']);
 
             $product_data_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_description` " .
