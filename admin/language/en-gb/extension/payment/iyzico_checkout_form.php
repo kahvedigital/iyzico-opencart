@@ -1,7 +1,7 @@
 <?php
 
 // Heading
-$_['heading_title'] = 'Iyzico Checkout Form';
+$_['heading_title'] = 'iyzico Checkout Form';
 
 // Text 
 $_['text_link'] = 'Register to become iyzico Merchant';
@@ -16,7 +16,7 @@ $_['entry_order_status'] = 'Order Status';
 $_['entry_status'] = 'Status';
 $_['entry_sort_order'] = 'Sort Order';
 $_['entry_error_version'] = 'There is a new version. Click here to update.';
-$_['entry_error_version_updated'] = 'Update Error! go to iyzico version page <a href="https://www.iyzico.com/entegrasyon/hazir-altyapi/opencart/" target="_blank">Version page</a> ';
+$_['entry_error_version_updated'] = 'Update Error! <a href="https://www.iyzico.com/entegrasyon/hazir-altyapi/opencart/" target="_blank">Click here</a> to manually update the plugin';
 $_['entry_iyzico_or_text'] = 'or go to iyzico version page <a href="https://www.iyzico.com/entegrasyon/hazir-altyapi/opencart/" target="_blank">Version page</a>';
 $_['entry_iyzico_update_button'] = 'Update now';
 $_['entry_class'] = "Form Class ";
@@ -43,7 +43,7 @@ $_['refund_transaction_type'] = 'Refund';
 $_['cancel_done_success'] = 'Your order has been canceled successfully.';
 
 $_['request_amount_not_greater_than'] = 'Requested amount should not be greater than %s.';
-$_['refund_done_success'] = 'Refund done successfully. Item Id: %s, Item Name: %s, Amount: %s';
+$_['refund_done_success'] = 'Payment successfully refunded. Item Id: %s, Item Name: %s, Amount: %s';
 
 $_['order_status_after_payment_tooltip'] = 'Order status after successful payment';
 $_['order_status_after_cancel_tooltip'] = 'Order status after successful cancel';
