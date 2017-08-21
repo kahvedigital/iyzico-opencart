@@ -401,7 +401,7 @@ $this->load->model('setting/extension');
                         }
    
                         if (!empty($items) && ($cart_total_amount != $sub_total)) {
-                            $last_item_index = end(array_keys($items));
+                            $last_item_index = end((array_keys($items)));
                             $last_item_object = $items[$last_item_index];
                             $item_price = $last_item_object->getPrice();
 
@@ -632,10 +632,10 @@ $this->load->model('setting/extension');
                                 );
                                 $this->model_extension_payment_iyzico_checkout_form->createRefundItemEntry($item_data_array);
                         }
-						if($this->session->data['account'] !== 'guest'){
+						if($this->customer->isLogged()){
 							$card_user_key = $response->GetcardUserKey();
 							 $merchant_api_id = $this->config->get('iyzico_checkout_form_api_id_live');
-							 $customer_id=$this->session->data['customer_id'];
+							 $customer_id=$this->customer->getId();
 							$customer_update = $this->model_extension_payment_iyzico_checkout_form->updateCustomer($customer_id,$card_user_key,$merchant_api_id);
 							
 						}
