@@ -7,7 +7,9 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         private $error = array();
         private $base_url = "https://api.iyzipay.com";
         private $order_prefix = "opencart2_";
+
 		private $iyzico_version = "2.2.0.4";
+
 		
         public function index() {
                 $this->language->load('payment/iyzico_checkout_form');
@@ -446,7 +448,9 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $request->setConversationId(uniqid($this->order_prefix) . "_refund_{$order_id}_{$item_id}");
                         $request->setPaymentTransactionId($refund_data['payment_transaction_id']);
                         $request->setPrice($amount);
+
                         $request->setCurrency($order_details['currency_code']);
+
                         $request->setIp($this->request->server['REMOTE_ADDR']);
 
                         $product_data_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_description` " .

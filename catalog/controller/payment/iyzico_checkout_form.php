@@ -6,7 +6,9 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
 
         private $base_url = "https://api.iyzipay.com";
         private $order_prefix = "opencart2_";
+
 		private $iyzico_version = "2.2.0.4";
+
 		
         public function index() {
 
@@ -70,6 +72,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $this->load->model('extension/extension');
                         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
+
                         $cart_total_amount = round($order_info['total'] * $order_info['currency_value'], 2);
 
                         if ($cart_total_amount == 0) {
@@ -91,7 +94,9 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
                         $request->setPaymentSource("OPENCART-" . VERSION ."-".$this->iyzico_version);
                         $request->setCallbackUrl($callback_url);
+
                         $request->setCurrency($order_info['currency_code']);
+
 						
 						$customer_card_key = $this->model_account_customer->getCustomer($this->session->data['customer_id']);				
 						if($customer_card_key['iyzico_api'] == $merchant_api_id){
@@ -764,5 +769,6 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         }
         exit();
     }
+
 
 }
