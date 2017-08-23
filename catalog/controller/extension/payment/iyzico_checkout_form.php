@@ -8,7 +8,7 @@ class ControllerExtensionPaymentIyzicoCheckoutForm extends Controller {
 
         private $order_prefix = "opencart23_";
 
-		private $iyzico_version = "2.3.0.3";
+		private $iyzico_version = "2.3.0.4";
         public function index() {
 
                 $this->load->language('extension/payment/iyzico_checkout_form');
