@@ -7,7 +7,9 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         private $error = array();
         private $base_url = "https://api.iyzipay.com";
         private $order_prefix = "opencart2_";
-		private $iyzico_version = "2.2.0.3";
+
+		private $iyzico_version = "2.2.0.4";
+
 		
         public function index() {
                 $this->language->load('payment/iyzico_checkout_form');
@@ -446,7 +448,9 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $request->setConversationId(uniqid($this->order_prefix) . "_refund_{$order_id}_{$item_id}");
                         $request->setPaymentTransactionId($refund_data['payment_transaction_id']);
                         $request->setPrice($amount);
-                        $request->setCurrency($this->getCurrencyConstant($order_details['currency_code']));
+
+                        $request->setCurrency($order_details['currency_code']);
+
                         $request->setIp($this->request->server['REMOTE_ADDR']);
 
                         $product_data_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_description` " .
@@ -594,26 +598,5 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                 return $response;
         }
 
-        private function getCurrencyConstant($currencyCode){
-                $currency = \Iyzipay\Model\Currency::TL;
-                switch($currencyCode){
-                        case "TRY":
-                                $currency = \Iyzipay\Model\Currency::TL;
-                                break;
-                        case "USD":
-                                $currency = \Iyzipay\Model\Currency::USD;
-                                break;
-                        case "GBP":
-                                $currency = \Iyzipay\Model\Currency::GBP;
-                                break;
-                        case "EUR":
-                                $currency = \Iyzipay\Model\Currency::EUR;
-                                break;
-                        case "IRR":
-                                $currency = \Iyzipay\Model\Currency::IRR;
-                                break;
-                }
-                return $currency;
-        }
 
 }
