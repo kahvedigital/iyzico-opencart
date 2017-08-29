@@ -6,8 +6,8 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
 
         private $base_url = "https://api.iyzipay.com";
         private $order_prefix = "opencart156_";
-        private $valid_currency = array("TRY", "GBP", "USD", "EUR", "IRR");
-		private $iyzico_version = "1.5.0.3";
+
+		private $iyzico_version = "1.5.0.4";
 
         public function index() {
 
@@ -71,9 +71,7 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $this->load->model('setting/extension');
                         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
-                        if (!in_array($order_info['currency_code'], $this->valid_currency)) {
-                            throw new \Exception($this->language->get('error_invalid_currency'));
-                        }
+
 
                         $cart_total_amount = round($order_info['total'] * $order_info['currency_value'], 2);
 
@@ -97,7 +95,8 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
                         $request->setPaymentGroup(\Iyzipay\Model\PaymentGroup::PRODUCT);
                         $request->setPaymentSource("OPENCART-" . VERSION ."-".$this->iyzico_version);
                         $request->setCallbackUrl($callback_url);
-                        $request->setCurrency($this->getCurrencyConstant($order_info['currency_code']));
+                        $request->setCurrency($order_info['currency_code']);
+
 
 						$customer_card_key = $this->model_account_customer->getCustomer($this->session->data['customer_id']);					
 						if($customer_card_key['iyzico_api'] == $merchant_api_id){
@@ -769,27 +768,5 @@ class ControllerPaymentIyzicoCheckoutForm extends Controller {
         }
         exit();
     }
-
-        private function getCurrencyConstant($currencyCode){
-            $currency = \Iyzipay\Model\Currency::TL;
-            switch($currencyCode){
-                case "TRY":
-                    $currency = \Iyzipay\Model\Currency::TL;
-                    break;
-                case "USD":
-                    $currency = \Iyzipay\Model\Currency::USD;
-                    break;
-                case "GBP":
-                    $currency = \Iyzipay\Model\Currency::GBP;
-                    break;
-                case "EUR":
-                    $currency = \Iyzipay\Model\Currency::EUR;
-                    break;
-                case "IRR":
-                    $currency = \Iyzipay\Model\Currency::IRR;
-                    break;    
-            }
-            return $currency;
-        }
 
 }
