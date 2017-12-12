@@ -387,7 +387,8 @@ $this->load->model('setting/extension');
 
                         
                         if (!empty($items) && ($sub_total != $product_prices)) {
-                                $last_item_index = end(array_keys($items));
+                                $item_array_keys = array_keys($items);
+                                $last_item_index = end($item_array_keys);
                                 $last_item_object = $items[$last_item_index];
                                 $item_price = $last_item_object->getPrice();
 
